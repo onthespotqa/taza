@@ -44,8 +44,8 @@ module Taza
 
       caps = Selenium::WebDriver::Remote::Capabilities.new
       caps[:browser_name] = params[:browser].humanize.downcase #"internet explorer" #.humanize.downcase #params[:browser].to_sym
-      caps[:platform] = ENV['PLATFORM']
-      caps[:version] = ENV['VERSION']
+      caps[:platform] = params[:platform]
+      caps[:version] = params[:browser_version]
       caps[:native_events] = true
 
       Watir::Browser.new(
