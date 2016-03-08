@@ -1,3 +1,7 @@
+=== 1.0
+updated to RSpec 3 (thanks @drewboardman)
+taza now accepts erb settings.yml (thanks @drewboardman)
+
 === 0.9.1.2
 Experimental pure Webdriver support
 Fix app generator (thanks @certonaqa)

@@ -94,7 +94,7 @@ describe Taza::Page do
 
   it "should not call element block if filters fail" do
     page = FilterAnElement.new
-    expect(lambda { page.false_item }).to raise_error
+    expect(lambda { page.false_item }).to raise_error(Taza::FilterError)
     expect(page.called_element_method).to_not be true
   end
 
