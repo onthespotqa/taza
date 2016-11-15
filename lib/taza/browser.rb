@@ -10,28 +10,21 @@ module Taza
       self.send("create_#{params[:driver]}".to_sym,params)
     end
 
-    def self.browser_class(params)
-      self.send("#{params[:driver]}_#{params[:browser]}".to_sym)
-    end
 
     private
 
     def self.create_watir(params)
-      method = "watir_#{params[:browser]}"
-      raise BrowserUnsupportedError unless self.respond_to?(method)
-      watir = self.send(method,params)
-      watir
+      require 'watir'
+      if params[:watir_driver]
+        ENV["WATIR_DRIVER"] = params[:watir_driver]
+      end
+      Watir::Browser.new params[:browser]
     end
-
-    def self.create_watir_webdriver(params)
-      require 'watir-webdriver'
-      Watir::Browser.new(params[:browser])
-    end
-
-    def self.create_selenium(params)
-      require 'selenium'
-      Selenium::SeleniumDriver.new(params[:server_ip],params[:server_port],'*' + params[:browser].to_s,params[:timeout])
-    end
+    #
+    #def self.create_selenium(params)
+    #  require 'selenium'
+    #  Selenium::SeleniumDriver.new(params[:server_ip],params[:server_port],'*' + params[:browser].to_s,params[:timeout])
+    #end
 
     def self.create_selenium_webdriver(params)
       require 'selenium-webdriver'
@@ -44,23 +37,25 @@ module Taza
       Selenium::WebDriver.for params[:browser].to_sym
     end
 
-    def self.watir_firefox(params)
-      require 'firewatir'
-      FireWatir::Firefox.new
+
+    def self.create_remote(params)
+      require 'selenium-webdriver'
+      require 'watir-webdriver'
+
+      caps = Selenium::WebDriver::Remote::Capabilities.new
+      caps[:browser_name] = params[:browser].humanize.downcase #"internet explorer" #.humanize.downcase #params[:browser].to_sym
+      caps[:platform] = params[:platform]
+      caps[:version] = params[:browser_version]
+      caps[:native_events] = true
+
+      Watir::Browser.new(
+          :remote,
+          :url => params[:hub],
+          :desired_capabilities => caps)
     end
 
-    def self.watir_safari(params)
-      require 'safariwatir'
-      Watir::Safari.new
-    end
+    #TODO: create_external_grid (Sauce, Browserstack, etc. )
 
-    def self.watir_ie(params)
-      require 'watir'
-      if params[:attach]
-        browser = Watir::Browser.find(:title, //)
-      end
-      browser || Watir::Browser.new
-    end
   end
 
   # We don't know how to create the browser you asked for
