@@ -1,13 +1,38 @@
 language: ruby
-before_install: gem install bundler -v 1.11.2
-script: "bundle exec rspec spec"
+before_install: gem update --remote bundler
+cache: bundler
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
+  - 2.0
+  - 2.1
+  - 2.2
+  - 2.3
   - ruby-head
-  - jruby-19mode
-  - rbx-2
+  - jruby-9
+  - rbx-2.2.7
+  - rbx-3
+gemfile:
+  - Gemfile.activesupport-3.2
+  - Gemfile.activesupport-4.0
+  - Gemfile.activesupport-4.1
+  - Gemfile.activesupport-4.2
+  - Gemfile.activesupport-5.0
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: rbx-2.2.7
+    - rvm: rbx-3
+  exclude:
+    - rvm: 2.0
+      gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.1
+      gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.3
+      gemfile: Gemfile.activesupport-3.2
+    - rvm: ruby-head
+      gemfile: Gemfile.activesupport-3.2
+    - rvm: jruby-9
+      gemfile: Gemfile.activesupport-5.0
+  fast_finish: true
 notifications:
   email:
     - pnascimento@gmail.com
