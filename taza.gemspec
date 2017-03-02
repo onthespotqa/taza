@@ -24,5 +24,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<watir>, ["~> 6.0.0"])
   s.add_runtime_dependency(%q<activesupport>, [">= 3.1.0"])
   s.add_runtime_dependency(%q<thor>, [">= 0.18.1"])
-  s.add_runtime_dependency(%q<rspec>, ["~> 3.0"])
+  s.add_runtime_dependency(%q<rspec>, ["~> 4.0"])
 end
