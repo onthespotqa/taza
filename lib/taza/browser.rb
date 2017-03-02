@@ -15,9 +15,6 @@ module Taza
 
     def self.create_watir(params)
       require 'watir'
-      if params[:watir_driver]
-        ENV["WATIR_DRIVER"] = params[:watir_driver]
-      end
       Watir::Browser.new params[:browser]
     end
     #
