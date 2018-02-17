@@ -15,7 +15,7 @@ module Taza
 
     def self.create_watir(params)
       require 'watir'
-      Watir::Browser.new params[:browser].to_sym, :switches => params[:switches]
+      Watir::Browser.new params[:browser].to_sym, :switches => params[:switches].split
     end
     #
     #def self.create_selenium(params)
